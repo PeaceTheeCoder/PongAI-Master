@@ -19,7 +19,7 @@ PongAI Master is an AI program developed using Python and the Pygame library tha
 
 To get started with PongAI Master, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/PongAI-Master.git`
+1. Clone the repository: `git clone https://github.com/PeaceTheeCoder/PongAI-Master.git`
 2. Install the required dependencies: `pip install pygame neat`
 3. Run the program: `python pong_ai.py`
 4. Enjoy playing against the AI or watching it compete with other AI opponents!
