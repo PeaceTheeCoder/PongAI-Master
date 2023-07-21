@@ -9,7 +9,7 @@ pygame.display.set_caption("PongAI Master")
 class Paddle:
     COLOR = WHITE
     HEIGHT = HEIGHT
-    VELOCITY = 5
+    VELOCITY = 10
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
@@ -25,6 +25,27 @@ class Paddle:
         else:
             if self.y < HEIGHT-self.height:
                 self.y += self.VELOCITY
+
+class Ball:
+    MAX_VELOCITY = 5
+    COLOR = WHITE
+    def __init__(self, x, y, radius):
+        self.x = x
+        self.y = y
+        self.radius  = radius
+
+        self.x_velocity = self.MAX_VELOCITY
+        self.y_velocity = 0
+
+    def draw(self, win):
+        pygame.draw.circle(win, self.COLOR,(self.x,self.y),self.radius)
+
+    def move(self):
+        self.x += self.x_velocity
+        self.y += self.y_velocity
+
+
+
 
 
 
@@ -43,14 +64,36 @@ def handle_paddle_movement(keys, left_paddle, right_paddle):
         right_paddle.move(up = False)
 
 
+#this is for collision 
+def handle_collision(ball, left_paddle, right_paddle):
+    if (ball.y + ball.radius >= HEIGHT) or (ball.y - ball.radius <= 0):
+        ball.y_velocity *= -1
+
+    if ball.x_velocity < 0:
+        if ball.y >= left_paddle.y and ball.y <= left_paddle.y+left_paddle.height:
+            if ball.x - ball.radius <= left_paddle.x + left_paddle.width:
+                ball.x_velocity *= -1
+
+    else:
+        if ball.y >= right_paddle.y and ball.y <= right_paddle.y+right_paddle.height:
+            if ball.x + ball.radius >= right_paddle.x:
+                ball.x_velocity *= -1
+
+
+
+
 #this function draws the current state of the window. 
-def draw(window, paddles):
+def draw(window, paddles, ball):
     window.fill(BLACK)
+    pygame.draw.line(window,GRAY,(WIDTH//2, 0),(WIDTH//2,HEIGHT),1)
     for paddle in paddles:
         paddle.draw(window)
 
-    pygame.draw.line(window,GRAY,(WIDTH//2, 0),(WIDTH//2,HEIGHT),1)
+    ball.draw(window)
+    
     pygame.display.update()
+
+    
 
 def main():
     run = True
@@ -59,12 +102,17 @@ def main():
     left_paddle = Paddle(PADDING, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
     right_paddle = Paddle(WIDTH-PADDING-PADDLE_WIDTH, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH,PADDLE_HEIGHT)
 
+    ball = Ball(WIDTH//2, HEIGHT//2,BALL_RADIUS)
+
     while(run):
         clock.tick(FRAMES_PER_SECOND) #making sure that the while loop runs in a controllable speed, note that increasing this value also increase game speed.
-        draw(WINDOW, [left_paddle, right_paddle])
+        draw(WINDOW, [left_paddle, right_paddle], ball)
 
         keys = pygame.key.get_pressed()
         handle_paddle_movement(keys, left_paddle, right_paddle)
+        handle_collision(ball, left_paddle, right_paddle)
+
+        ball.move()
 
         for event in pygame.event.get():
 
