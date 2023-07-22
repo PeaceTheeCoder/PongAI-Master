@@ -31,5 +31,3 @@ We believe PongAI Master offers a captivating demonstration of how AI can learn 
 Please note that this project is for educational and demonstration purposes and can serve as a starting point for AI game development and research.
 
 Feel free to clone the repository, experiment with the code, and contribute to further enhancements. We welcome your feedback and contributions!
-
-
