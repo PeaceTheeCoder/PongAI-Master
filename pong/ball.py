@@ -1,20 +1,40 @@
-from constance import *
+from .constance import *
 import pygame
+import math
+import random
 
 
 class Ball:
-    MAX_VELOCITY = 5
+    MAX_VELOCITY = 7
     COLOR = WHITE
     RADIUS = BALL_RADIUS
-    def __init__(self, x, y):
-        self.x = self.original_x = x
-        self.y = self.original_y = y
+    def __init__(self, window_width, window_height):
     
-        self.x_velocity = self.MAX_VELOCITY
-        self.y_velocity = 0
+        self.window_width = window_width
+        self.window_height = window_height
+
+        self.x = self.original_x = self.window_width//2
+        self.y = self.original_y = self.window_height//2
+
+        angle = self._get_rand_angle(-30,30,[0])
+        pos = 1 if random.random()< 0.5 else -1
+    
+        self.x_velocity = pos * abs(math.cos(angle) * self.MAX_VELOCITY)
+        self.y_velocity = math.sin(angle)
+
+
+    def _get_rand_angle(self, min_angle, max_angle, excluded):
+        angle = 0
+        while angle in excluded:
+            angle = math.radians(random.randrange(min_angle, max_angle))
+
+        return angle
+
 
     def draw(self, win):
         pygame.draw.circle(win, self.COLOR,(self.x,self.y),self.RADIUS)
+        pygame.draw.line(win,GRAY,(self.original_x, 0),(self.original_x,self.window_height),1)#draw line also
+        
 
     def move(self):
         self.x += self.x_velocity
@@ -28,4 +48,9 @@ class Ball:
     def reset(self):
         self.x = self.original_x
         self.y = self.original_y
-        self.y_velocity = 0
+        
+        angle = self._get_rand_angle(-30,30,[0])
+        pos = 1 if random.random()< 0.5 else -1
+    
+        self.x_velocity = pos * abs(math.cos(angle) * self.MAX_VELOCITY)
+        self.y_velocity = math.sin(angle)
