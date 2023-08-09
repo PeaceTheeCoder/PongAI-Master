@@ -2,6 +2,7 @@ from .ball import Ball
 from .paddle import Paddle
 from .player import Player
 from .constance import *
+import random
 
 
 class GameInformation:
@@ -37,7 +38,7 @@ class Game:
 
         #check if the ball hit the top or down.
         if (ball.y + ball.RADIUS >= self.window_height) or (ball.y - ball.RADIUS <= 0):
-            ball.y_velocity *= -1
+            ball.y_velocity = (ball.y_velocity *-1)+random.randint(-2,2)
 
         #check if the ball hit the paddles.
         if ball.x_velocity < 0:
@@ -74,16 +75,21 @@ class Game:
          # Check if the ball moves past the left or right edges
         if ball.x - ball.RADIUS < 0:
             right_player.change_score()
+            right_paddle.reset()
+            left_paddle.reset()
             ball.reset()
+
             
 
         if ball.x + ball.RADIUS > self.window_width:
             left_player.change_score()
+            right_paddle.reset()
+            left_paddle.reset()
             ball.reset()
             
 
     
-    def draw(self):
+    def draw(self, hits=False):
         
         self.window.fill(BLACK)
         
@@ -92,8 +98,11 @@ class Game:
 
         self.ball.draw(self.window)
         
-        self.left_player.draw(self.window)
-        self.right_player.draw(self.window)
+        if hits:
+            self.ball.draw_hits(self.window, self.left_player.hits+self.right_player.hits)
+        else:
+            self.left_player.draw(self.window)
+            self.right_player.draw(self.window)
         
 
     
