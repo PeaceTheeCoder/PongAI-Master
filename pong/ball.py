@@ -8,6 +8,7 @@ class Ball:
     MAX_VELOCITY = 7
     COLOR = WHITE
     RADIUS = BALL_RADIUS
+    FONTSIZE = 25
     def __init__(self, window_width, window_height):
     
         self.window_width = window_width
@@ -34,6 +35,14 @@ class Ball:
     def draw(self, win):
         pygame.draw.circle(win, self.COLOR,(self.x,self.y),self.RADIUS)
         pygame.draw.line(win,GRAY,(self.original_x, 0),(self.original_x,self.window_height),1)#draw line also
+
+    
+    def draw_hits(self,win,hits):
+        font = pygame.font.SysFont(None, self.FONTSIZE)
+        hits_text = font.render(f"hits : {str(hits)}", True, self.COLOR)
+        hits_rect = hits_text.get_rect(center=(self.window_width//2, PADDING*2))
+
+        win.blit(hits_text,hits_rect)
         
 
     def move(self):
