@@ -21,8 +21,9 @@ To get started with PongAI Master, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/PeaceTheeCoder/PongAI-Master.git`
 2. Install the required dependencies: `pip install -r requirements.txt`
-3. Run the program: `python pong_ai.py`
-4. Enjoy playing against the AI or watching it compete with other AI opponents!
+3. Run the program: `python pong_play.py` to play a two player mode
+4. Run the program: `python pong_ai.py` to play with an ai
+5. Enjoy playing against the AI or play with someone
 
 ## Contributions
 

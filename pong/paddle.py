@@ -1,24 +1,24 @@
-from constance import *
+from .constance import *
 import pygame
 
 class Paddle:
     COLOR = WHITE
-    HEIGHT = HEIGHT
+    PADDLE_HEIGHT= PADDLE_HEIGHT
+    PADDLE_WIDTH = PADDLE_WIDTH
     VELOCITY = 7
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y):
         self.x = self.original_x =x
         self.y = self.original_y = y
-        self.width = width
-        self.height = height
+        
 
     def draw(self, win):
-        pygame.draw.rect(win, self.COLOR,(self.x, self.y, self.width, self.height))
+        pygame.draw.rect(win, self.COLOR,(self.x, self.y, self.PADDLE_WIDTH, self.PADDLE_HEIGHT))
 
     def move(self, up=True):
-        if up and self.y >= 0 :
+        if up :
             self.y -= self.VELOCITY
         else:
-            if self.y < HEIGHT-self.height:
+            if self.y:
                 self.y += self.VELOCITY
 
 
